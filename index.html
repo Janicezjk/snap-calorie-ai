@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapCalorie AI - AI Visual Calorie Tracker</title>
+  <meta name="description" content="Instant AI-powered meal recognition and daily calorie threshold tracking.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-glow bg-glow-1"></div>
+  <div class="background-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+        <span class="brand-name">SnapCalorie <span class="brand-tag">AI</span></span>
+      </div>
+      <button class="settings-btn" id="openSettingsBtn" title="Profile Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Main Grid Dashboard -->
+    <main class="dashboard-grid">
+      
+      <!-- Calorie Gauge Card -->
+      <section class="glass-card main-gauge-card">
+        <div class="card-header">
+          <h2>Daily Threshold</h2>
+          <span class="status-pill status-on-track" id="statusPill">ON TRACK</span>
+        </div>
+
+        <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 200 200">
+            <circle class="gauge-bg" cx="100" cy="100" r="82"/>
+            <circle class="gauge-progress" id="gaugeProgress" cx="100" cy="100" r="82" stroke-dasharray="515" stroke-dashoffset="515"/>
+          </svg>
+          <div class="gauge-text">
+            <span class="calories-num" id="caloriesRemaining">1,850</span>
+            <span class="calories-label">kcal remaining</span>
+            <div class="calorie-subtext">Target: <span id="caloriesTarget">2,400</span> kcal</div>
+          </div>
+        </div>
+
+        <div class="macro-bars">
+          <div class="macro-item">
+            <div class="macro-info">
+              <span>Protein</span>
+              <span id="proteinText">65 / 150g</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-protein" id="proteinBar" style="width: 43%;"></div>
+            </div>
+          </div>
+          <div class="macro-item">
+            <div class="macro-info">
+              <span>Carbs</span>
+              <span id="carbsText">140 / 250g</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-carbs" id="carbsBar" style="width: 56%;"></div>
+            </div>
+          </div>
+          <div class="macro-item">
+            <div class="macro-info">
+              <span>Fats</span>
+              <span id="fatsText">32 / 70g</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-fats" id="fatsBar" style="width: 45%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Camera Snap / AI Upload Card -->
+      <section class="glass-card camera-card">
+        <div class="card-header">
+          <h2>AI Meal Scanner</h2>
+          <span class="badge-ai">Powered by Gemini AI</span>
+        </div>
+
+        <div class="scan-area" id="scanArea">
+          <input type="file" id="fileInput" accept="image/*" capture="environment" hidden>
+          <div class="scan-placeholder" id="scanPlaceholder">
+            <div class="scan-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </div>
+            <p class="scan-instruction">Tap to snap a picture or upload meal photo</p>
+            <span class="scan-sub">Detects dish items, portions & USDA calories</span>
+          </div>
+
+          <div class="image-preview-container hidden" id="previewContainer">
+            <img id="imagePreview" alt="Meal Photo Preview">
+            <div class="scan-line hidden" id="scanLine"></div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary btn-full" id="captureBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Snap & Analyze Meal
+          </button>
+          <button class="btn btn-secondary hidden" id="reanalyzeBtn">Analyze New Photo</button>
+        </div>
+      </section>
+
+      <!-- Today's Meal Timeline -->
+      <section class="glass-card timeline-card">
+        <div class="card-header">
+          <h2>Today's Journal</h2>
+          <span class="count-pill" id="mealCount">2 Meals</span>
+        </div>
+
+        <div class="meal-list" id="mealList">
+          <!-- Meal entries injected by JS -->
+        </div>
+      </section>
+
+      <!-- Meal Combo Estimator Card -->
+      <section class="glass-card combo-card">
+        <div class="card-header">
+          <h2>Meal Combo Estimator</h2>
+          <button class="btn btn-secondary btn-sm" id="createComboBtn">+ Build Custom Combo</button>
+        </div>
+        <p class="combo-desc">Select or create pre-planned meal combos to get a preliminary calorie estimate before eating.</p>
+
+        <div class="combo-grid" id="comboGrid">
+          <!-- Combo preset items injected by JS -->
+        </div>
+
+        <div class="combo-estimate-bar hidden" id="comboEstimateBar">
+          <div class="estimate-info">
+            <span class="estimate-title" id="selectedComboTitle">Selected Combo</span>
+            <span class="estimate-val" id="selectedComboCalories">0 kcal</span>
+          </div>
+          <button class="btn btn-primary" id="logComboBtn">Log Selected Combo</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Create Combo Modal (Ingredient-Based Builder) -->
+    <div class="modal-overlay hidden" id="comboModal">
+      <div class="glass-card modal-card">
+        <div class="card-header">
+          <h2>Create Combo from Ingredients</h2>
+          <button class="close-btn" id="closeComboModalBtn">&times;</button>
+        </div>
+        <form id="comboForm" class="settings-form">
+          <div class="form-group">
+            <label for="comboNameInput">Combo / Recipe Name</label>
+            <input type="text" id="comboNameInput" placeholder="e.g. Grilled Chicken & Brown Rice Bowl" required>
+          </div>
+
+          <div class="ingredients-section">
+            <div class="section-label-row">
+              <label>Combo Ingredients</label>
+              <button type="button" class="btn btn-secondary btn-sm" id="addIngredientRowBtn">+ Add Ingredient</button>
+            </div>
+            
+            <div class="ingredient-rows" id="ingredientRows">
+              <!-- Dynamic ingredient rows injected by JS -->
+            </div>
+          </div>
+
+          <div class="combo-live-totals">
+            <span>Live Combo Estimate:</span>
+            <div class="total-tags">
+              <span class="total-kcal-tag" id="liveComboKcal">0 kcal</span>
+              <span class="total-macro-tag" id="liveComboMacros">P: 0g | C: 0g | F: 0g</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Save & Create Combo</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- AI Analysis Result Modal -->
+    <div class="modal-overlay hidden" id="analysisModal">
+      <div class="glass-card modal-card">
+        <div class="card-header">
+          <h2>AI Dish Decomposition</h2>
+          <button class="close-btn" id="closeModalBtn">&times;</button>
+        </div>
+
+        <div class="analysis-body">
+          <div class="analysis-image-box">
+            <img id="modalImage" alt="Analyzed Dish">
+            <div class="ai-confidence-badge">High Confidence (94%)</div>
+          </div>
+
+          <div class="dish-breakdown">
+            <h3>Detected Food Items</h3>
+            <div class="item-list" id="detectedItemsList">
+              <!-- Item breakdown rows -->
+            </div>
+
+            <div class="total-summary-box">
+              <div class="summary-metric">
+                <span class="summary-val" id="modalTotalCalories">550</span>
+                <span class="summary-lbl">Total kcal</span>
+              </div>
+              <div class="summary-macros">
+                <span class="macro-tag tag-p">P: <strong id="modalTotalP">42g</strong></span>
+                <span class="macro-tag tag-c">C: <strong id="modalTotalC">48g</strong></span>
+                <span class="macro-tag tag-f">F: <strong id="modalTotalF">14g</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="cancelLogBtn">Cancel</button>
+          <button class="btn btn-primary" id="confirmLogBtn">Confirm & Log Calories</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay hidden" id="settingsModal">
+      <div class="glass-card modal-card settings-box">
+        <div class="card-header">
+          <h2>Profile & Calorie Target</h2>
+          <button class="close-btn" id="closeSettingsBtn">&times;</button>
+        </div>
+        <form id="settingsForm" class="settings-form">
+          <div class="form-group">
+            <label for="dailyTargetInput">Daily Calorie Threshold (kcal)</label>
+            <input type="number" id="dailyTargetInput" value="2400" min="1000" max="10000" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="proteinTargetInput">Protein Target (g)</label>
+              <input type="number" id="proteinTargetInput" value="150" required>
+            </div>
+            <div class="form-group">
+              <label for="carbsTargetInput">Carbs Target (g)</label>
+              <input type="number" id="carbsTargetInput" value="250" required>
+            </div>
+            <div class="form-group">
+              <label for="fatsTargetInput">Fats Target (g)</label>
+              <input type="number" id="fatsTargetInput" value="70" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
